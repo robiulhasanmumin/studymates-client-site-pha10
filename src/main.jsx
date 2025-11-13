@@ -10,6 +10,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import AuthProvider from './provider/AuthProvider';
 import PartnerDetails from './Pages/PartnerDetails';
+import ErrorPage from './Pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,8 @@ const router = createBrowserRouter([
       },
       {
         path:"partnerDetails/:id",
-        Component:PartnerDetails
+        Component:PartnerDetails,
+        loader:()=>fetch(`http://localhost:3000/partner`)
       },
       {
         path:"/login",
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
     ]
 
   },
+  {
+    path:"/error",
+    Component:ErrorPage
+  }
 ]);
 
 createRoot(document.getElementById('root')).render(
