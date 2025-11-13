@@ -8,6 +8,8 @@ import Home from './Components/Home';
 import FindPartners from './Pages/FindPartners';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
+import AuthProvider from './provider/AuthProvider';
+import PartnerDetails from './Pages/PartnerDetails';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +22,12 @@ const router = createBrowserRouter([
       },
       {
         path:"findPartners",
-        Component:FindPartners
+        Component:FindPartners,
+        loader:()=>fetch(`http://localhost:3000/partner`)
+      },
+      {
+        path:"partnerDetails/:id",
+        Component:PartnerDetails
       },
       {
         path:"/login",
@@ -37,6 +44,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AuthProvider>
  <RouterProvider router={router} />
+    </AuthProvider>
    </StrictMode>,
 )

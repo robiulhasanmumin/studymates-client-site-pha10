@@ -29,8 +29,8 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <Link to="/login" className="btn bg-green-500 text-white">Login</Link>
-    <Link to="/register" className="btn bg-blue-500 text-white ml-2">Register</Link>
+    <Link to="/login" className="btn bg-[#4F959D] text-white">Login</Link>
+    <Link to="/register" className="btn bg-[#4F959D] text-white ml-2">Register</Link>
   </div>
 </div>
 
