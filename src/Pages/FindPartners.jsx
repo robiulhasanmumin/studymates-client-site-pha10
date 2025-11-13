@@ -35,7 +35,10 @@ const FindPartners = () => {
       </div>
 
 
-        {
+{
+  loading ? 
+  <p className='text-4xl text-center my-24 text-gray-500 font-semibold '>Loading...</p>
+  :
           filterData.length > 0 ?
       <div className='grid lg:grid-cols-3 grid-cols-1 gap-4'>
           {filterData.map(partner=><FindPartner key={partner.id} partner={partner}></FindPartner>) }
@@ -44,7 +47,9 @@ const FindPartners = () => {
         <p className="text-4xl text-center my-24 text-gray-500 font-semibold " >
             OPPS!! PARTNERS NOT FOUND
           </p>
-        }
+}
+
+
     </div>
   )
 }

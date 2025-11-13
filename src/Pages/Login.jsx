@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router'
 
 const Login = () => {
+  const [err,setErr] = useState("")
+  const handleLogin =(e)=>{
+    e.preventDefault()
+        const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email,password);
+
+  }
+
+  const handleGoogleLogin=()=>{
+
+  }
   return (
-    <motion.div initial={{ opacity: 0, y: 100 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.7, ease: "easeOut" }} className=" bg-base-200 py-20">
+    <div className=" bg-base-200 py-20">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <h1 className="text-2xl font-bold text-center mt-5">Login</h1>
@@ -16,8 +27,8 @@ const Login = () => {
                 type="email"
                 className="input"
                 name="email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
+                // value={email}
+                // onChange={(e)=>setEmail(e.target.value)}
                 placeholder="Email"
                 required
               />
@@ -32,9 +43,9 @@ const Login = () => {
               />
               <p className="text-red-500">{err && err}</p>
               <div>
-                <Link to="/forgotPassword" state={{email}} className="link link-hover ">
+                <a className="link link-hover ">
                   Forgot password?
-                </Link>
+                </a>
               </div>
               
               <button type="submit" className="btn btn-neutral mt-4 mb-2">
@@ -85,7 +96,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
