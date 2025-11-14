@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router'
+import React, { use, useState } from 'react'
+import { Link, useNavigate } from 'react-router'
+import { AuthContext } from '../provider/AuthContext'
+import Swal from 'sweetalert2'
 
 const Register = () => {
   const [err,setErr] = useState("")
+    const {googleSignIn,createUser,setUser,updateUser} = use(AuthContext)
+  const navigate = useNavigate()
+
+
   const handleRegister=(e)=>{
      e.preventDefault()
     const name = e.target.name.value;
@@ -16,10 +22,57 @@ const Register = () => {
       setErr("Must be 1 Upparcase, 1 Lowercase and 6 Carecters")
       return
     }
+    createUser(email,password)
+    .then((result)=>{
+      const user = result.user
+      updateUser({displayName: name, photoURL: photo})
+      .then(()=>{
+         setUser({...user,displayName: name, photoURL: photo})
+           Swal.fire({
+           title: "Register Completed!",
+           icon: "success"
+           });
+           navigate("/")
+      })
+      .catch((error)=>{
+         Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: `${error.message}`,
+});
+      })
+    })
+    .catch((error)=>{
+         Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: `${error.message}`,
+});
+
+    })
 
   }
-  const handleGoogleLogin=()=>{
 
+  
+  const handleGoogleLogin=()=>{
+     googleSignIn()
+     .then((result)=>{
+      const user = result.user;
+      setUser(user)
+            Swal.fire({
+        title: `Welcome ${user.displayName}!`,
+        text: "Logged In Successfully With Google",
+        icon: "success",
+      });
+      navigate("/");
+     })
+     .catch((error)=>{
+         Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: `${error.message}`,
+});
+     })
   }
   return (
     <div  className=''>

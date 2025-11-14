@@ -12,11 +12,14 @@ import AuthProvider from './provider/AuthProvider';
 import PartnerDetails from './Pages/PartnerDetails';
 import ErrorPage from './Pages/ErrorPage';
 import ProfilePage from './Pages/ProfilePage';
+import CreatePartnerProfile from './Pages/CreatePartnerProfile';
+import MyConnection from './Pages/MyConnection';
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component:Roots,
+    errorElement:<ErrorPage></ErrorPage>,
     children:[
       {
         index:true,
@@ -43,14 +46,18 @@ const router = createBrowserRouter([
       {
         path:"/myProfile",
         Component: ProfilePage
+      },
+      {
+        path:"/createPartnerProfile",
+        Component: CreatePartnerProfile
+      },
+      {
+        path:"/myConnection",
+        Component: MyConnection
       }
     ]
 
   },
-  {
-    path:"/error",
-    Component:ErrorPage
-  }
 ]);
 
 createRoot(document.getElementById('root')).render(

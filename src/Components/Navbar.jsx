@@ -3,12 +3,22 @@ import { Link, NavLink } from 'react-router'
 import "../../src/index.css"
 import { AuthContext } from '../provider/AuthContext'
 import Swal from 'sweetalert2'
+import { MdLogout } from "react-icons/md";
+import { FaRegUserCircle } from 'react-icons/fa'
+
 
 const Navbar = () => {
   const {user,logOut} = use(AuthContext)
   const links = <>
       <li><NavLink to="/">Home</NavLink></li>
       <li><NavLink to="/findPartners">Find Partners</NavLink></li>
+      {
+        user &&
+        <>
+      <li><NavLink to="/createPartnerProfile">Create Partner Profile</NavLink></li>
+      <li><NavLink to="/myConnection">My Connections </NavLink></li>
+        </>
+      }
 
   </>
 
@@ -62,12 +72,12 @@ const Navbar = () => {
       user ? 
 
       <>
-          <Link to="/" onClick={handleLogOut} className="btn bg-[#4F959D] text-white">LogOut</Link>
           <div className="dropdown dropdown-end">
   <img src={user.photoURL} tabIndex={0} role="button" className="cursor-pointer w-[45px] h-[45px] rounded-full mr-4"></img>
   <ul tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-    <li><a>Item 1</a></li>
-    <li><a>Item 2</a></li>
+    <li> <Link to="/myProfile" className="text-blue-500"><FaRegUserCircle />
+ My Profile</Link></li>
+    <li> <Link to="/" onClick={handleLogOut} className="text-red-500"><MdLogout /> LogOut</Link></li>
   </ul>
 </div>
       </>
