@@ -1,18 +1,48 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router'
+import React, { use, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router'
+import { AuthContext } from '../provider/AuthContext'
+import Swal from 'sweetalert2'
 
 const Login = () => {
+  const {googleSignIn,logIn,setUser} = use(AuthContext)
+  const location = useLocation()
+  const navigate = useNavigate()
+
   const [err,setErr] = useState("")
+
   const handleLogin =(e)=>{
     e.preventDefault()
         const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email,password);
+    logIn(email,password)
+    .then(()=>{
+       Swal.fire({
+          title: "Logged In Successfully!",
+          icon: "success",
+        });
+        navigate(`${location.state ? location.state : "/"}`)
+    })
+    .catch(()=>{
+      setErr("Incorrect Password.")
+    })
 
   }
 
   const handleGoogleLogin=()=>{
-
+     googleSignIn()
+     .then((result)=>{
+      const user = result.user;
+      setUser(user)
+            Swal.fire({
+        title: `Welcome ${user.displayName}!`,
+        text: "Logged In Successfully With Google",
+        icon: "success",
+      });
+      navigate(`${location.state ? location.state : "/"}`);
+     })
+     .catch((err)=>{
+       alert(err)
+     })
   }
   return (
     <div className=" bg-base-200 py-20">

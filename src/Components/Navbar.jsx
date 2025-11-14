@@ -1,13 +1,41 @@
-import React from 'react'
+import React, { use } from 'react'
 import { Link, NavLink } from 'react-router'
 import "../../src/index.css"
+import { AuthContext } from '../provider/AuthContext'
+import Swal from 'sweetalert2'
 
 const Navbar = () => {
+  const {user,logOut} = use(AuthContext)
   const links = <>
       <li><NavLink to="/">Home</NavLink></li>
       <li><NavLink to="/findPartners">Find Partners</NavLink></li>
 
   </>
+
+  const handleLogOut=()=>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to LogOut this app?",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonColor: "green",
+      confirmButtonColor: "red",
+      confirmButtonText: "LogOut",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            Swal.fire({
+              title: "Logged Out Successfully!",
+              icon: "success",
+            });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+    });
+  }
   return (
 <div className="navbar bg-base-100 shadow-sm">
   <div className="navbar-start">
@@ -28,9 +56,18 @@ const Navbar = () => {
       {links}
     </ul>
   </div>
+
   <div className="navbar-end">
+    {
+      user ? 
+          <Link to="/" onClick={handleLogOut} className="btn bg-[#4F959D] text-white">LogOut</Link>
+          :
+          <>
     <Link to="/login" className="btn bg-[#4F959D] text-white">Login</Link>
     <Link to="/register" className="btn bg-[#4F959D] text-white ml-2">Register</Link>
+
+          </>
+    }
   </div>
 </div>
 

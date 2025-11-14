@@ -52,7 +52,7 @@ const PartnerDetails = () => {
 
         <p className='text-xl text-gray-500 my-5'><span className='font-semibold'>Contact :</span> {location} - {email}</p>
 
-        <a className='bg-[#4F959D] inline-block text-white font-semibold px-6 py-3 rounded-md'>Connection</a>
+        <button className='btn bg-[#4F959D] inline-block text-white font-semibold px-5 rounded-md'>Connection</button>
        </div>
     </div>
   )
