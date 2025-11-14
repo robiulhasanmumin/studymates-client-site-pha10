@@ -73,7 +73,7 @@ const Navbar = () => {
 
       <>
           <div className="dropdown dropdown-end">
-  <img src={user.photoURL} tabIndex={0} role="button" className="cursor-pointer w-[45px] h-[45px] rounded-full mr-4"></img>
+  <img src={user?.photoURL} tabIndex={0} role="button" className="cursor-pointer w-[45px] h-[45px] rounded-full mr-4"></img>
   <ul tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
     <li> <Link to="/myProfile" className="text-blue-500"><FaRegUserCircle />
  My Profile</Link></li>
@@ -84,8 +84,8 @@ const Navbar = () => {
       :
 
           <>
-    <Link to="/login" className="btn bg-[#4F959D] text-white">Login</Link>
-    <Link to="/register" className="btn bg-[#4F959D] text-white ml-2">Register</Link>
+    <Link to="/login" className="btn bg-[#4F959D] hover:bg-[#397177] text-white">Login</Link>
+    <Link to="/register" className="btn bg-[#4F959D] hover:bg-[#397177] text-white ml-2">Register</Link>
 
           </>
     }

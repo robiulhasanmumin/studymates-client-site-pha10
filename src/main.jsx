@@ -14,6 +14,7 @@ import ErrorPage from './Pages/ErrorPage';
 import ProfilePage from './Pages/ProfilePage';
 import CreatePartnerProfile from './Pages/CreatePartnerProfile';
 import MyConnection from './Pages/MyConnection';
+import PrivateRoutes from './provider/PrivateRoutes';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path:"partnerDetails/:id",
-        Component:PartnerDetails,
+        element:<PrivateRoutes><PartnerDetails></PartnerDetails></PrivateRoutes>,
         loader:()=>fetch(`http://localhost:3000/partner`)
       },
       {
