@@ -11,6 +11,7 @@ import Register from './Pages/Register';
 import AuthProvider from './provider/AuthProvider';
 import PartnerDetails from './Pages/PartnerDetails';
 import ErrorPage from './Pages/ErrorPage';
+import ProfilePage from './Pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path:"/register",
         Component:Register
+      },
+      {
+        path:"/myProfile",
+        Component: ProfilePage
       }
     ]
 

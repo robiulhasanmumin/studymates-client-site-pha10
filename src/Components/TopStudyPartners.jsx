@@ -16,7 +16,7 @@ const TopStudyPartners = () => {
 
   
   return (
-    <div className='lg:px-10'>
+    <div className='lg:px-10 px-5'>
       <h1 className='text-center text-3xl font-bold mt-10 mb-7'>Top <span className='text-[#4F959D]'>Study</span> Partners</h1>
        <div className='grid lg:grid-cols-3 grid-cols-1 gap-4'>
         {

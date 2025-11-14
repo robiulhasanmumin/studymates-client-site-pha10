@@ -60,8 +60,19 @@ const Navbar = () => {
   <div className="navbar-end">
     {
       user ? 
+
+      <>
           <Link to="/" onClick={handleLogOut} className="btn bg-[#4F959D] text-white">LogOut</Link>
-          :
+          <div className="dropdown dropdown-end">
+  <img src={user.photoURL} tabIndex={0} role="button" className="cursor-pointer w-[45px] h-[45px] rounded-full mr-4"></img>
+  <ul tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+    <li><a>Item 1</a></li>
+    <li><a>Item 2</a></li>
+  </ul>
+</div>
+      </>
+      :
+
           <>
     <Link to="/login" className="btn bg-[#4F959D] text-white">Login</Link>
     <Link to="/register" className="btn bg-[#4F959D] text-white ml-2">Register</Link>

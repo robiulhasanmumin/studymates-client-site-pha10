@@ -22,11 +22,11 @@ const FindPartners = () => {
     }
 
   return (
-    <div className='py-8 px-10'>
+    <div className='py-8 lg:px-10 px-5'>
       <h1 className='font-bold text-4xl text-center'>Find <span className='text-[#4F959D]'>All</span> Partner</h1>
 
 
-      <div className='flex justify-between items-center mb-5 mt-5'>
+      <div className='flex lg:flex-row flex-col gap-3 justify-between items-center mb-5 mt-5'>
         <h2 className='text-xl font-bold'>Our Partners : <span className='text-[#4F959D]'>{filterData.length}</span></h2>
         <label className='border-2 flex items-center gap-2 border-gray-500 px-3 py-2 rounded-md'>
           <CiSearch className='right-0 top-2' />
