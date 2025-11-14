@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaStar } from 'react-icons/fa'
+import { FaStar, FaUsers } from 'react-icons/fa'
 import { useLoaderData, useParams } from 'react-router'
 
 const PartnerDetails = () => {
@@ -25,7 +25,7 @@ const PartnerDetails = () => {
   return (
     <div className='flex flex-col md:flex-row gap-8 px-10 py-20 items-center'>
       <div className='flex-1'>
-       <img src={profileimage} className='rounded-md h-[350px] w-full' alt="" />
+       <img src={profileimage} className='rounded-md h-[400px] w-full' alt="" />
       </div>
        <div className='flex-1 space-y-2'>
         <p className={`rounded-2xl px-2 ${mode} w-fit`}>{studyMode}</p>
@@ -33,8 +33,26 @@ const PartnerDetails = () => {
         <p className='font-semibold text-[14px]'><span className='font-bold text-lg text-[#4F959D]'>{subject}</span></p>
         <p className='font-semibold'>{availabilityTime}</p>
         <p className='text-gray-500'>{description}</p>
-        <p className='flex gap-2 text-xl font-semibold'><FaStar className='text-amber-500' /> {rating}</p>
-        <a href='https://play.google.com/store/apps/category/FAMILY?hl=en' target='_blank'  className='bg-blue-500 inline-block text-white font-semibold px-6 py-3 rounded-md'>Download Link</a>
+
+
+        <div className='flex gap-12 my-4'>
+          <div>
+            <p className='text-xl font-bold'>Rating</p>
+             <p className='flex gap-2 text-lg items-center font-semibold'><FaStar className='text-amber-500' /> {rating}</p>
+          </div>
+          <div>
+            <p className='text-xl font-bold'>Partner</p>
+             <p className='flex gap-2 text-xl items-center font-semibold'><FaUsers /> {patnerCount}</p>
+          </div>
+          <div>
+            <p className='text-xl font-bold'>Experience</p>
+             <p className='flex gap-2 text-xl items-center font-semibold'> {experienceLevel}</p>
+          </div>
+        </div>
+
+        <p className='text-xl text-gray-500 my-5'><span className='font-semibold'>Contact :</span> {location} - {email}</p>
+
+        <a className='bg-[#4F959D] inline-block text-white font-semibold px-6 py-3 rounded-md'>Connection</a>
        </div>
     </div>
   )
