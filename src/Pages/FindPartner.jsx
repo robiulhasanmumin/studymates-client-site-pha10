@@ -1,9 +1,9 @@
 import React from 'react'
 import { FaStar } from 'react-icons/fa';
-import { Link } from 'react-router';
+import { Link, useParams } from 'react-router';
 
 const FindPartner = ({partner}) => {
-  const {id,name,profileimage,subject,rating,studyMode} = partner
+  const {_id,name,profileimage,subject,rating,studyMode} = partner
   const mode = studyMode === "Online" ? "text-green-500 bg-green-100" : "text-red-500 bg-red-100";
   
   return (
@@ -16,7 +16,7 @@ const FindPartner = ({partner}) => {
       <p className='flex gap-1 items-center text-gray-500 font-semibold'><FaStar className='text-amber-500' /> {rating}</p>
       <p className={`rounded-2xl px-2 ${mode}`}>{studyMode}</p>
     </div>
-      <Link className='btn bg-[#4F959D] hover:bg-[#35757c] text-white w-full mt-3' to={`/partnerDetails/${id}` }>View Profile</Link>
+      <Link className='btn bg-[#4F959D] hover:bg-[#35757c] text-white w-full mt-3' to={`/partnerDetails/${_id}` }>View Profile</Link>
 </div>
 
   )

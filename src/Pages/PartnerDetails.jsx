@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { FaStar, FaUsers } from 'react-icons/fa'
-import { useLoaderData, useParams } from 'react-router'
+import { useLoaderData, useNavigate, useParams } from 'react-router'
 
 const PartnerDetails = () => {
   const partnerData = useLoaderData()
   const {id} = useParams()
   const [data, setData] = useState({})
+  const navigate  = useNavigate()
 
   const {subject,name,profileimage,studyMode,rating, availabilityTime,location,description,experienceLevel,patnerCount,email} = data
 
   useEffect(()=>{
 
-    const findPartner = partnerData.find(partner=>partner.id == id)
+    const findPartner = partnerData.find(partner=>partner._id == id)
     setData(findPartner)
 
-  },[partnerData,id])
+  },[partnerData, id])
 
-  if(!data){
+  if(!data || !data._id){
      return <p className='text-center text-4xl my-20 text-gray-500'>Loading...</p>
   }
 
@@ -52,7 +53,11 @@ const PartnerDetails = () => {
 
         <p className='text-xl text-gray-500 my-5'><span className='font-semibold'>Contact :</span> {location} - {email}</p>
 
-        <button className='btn bg-[#4F959D] inline-block text-white font-semibold px-5 rounded-md'>Connection</button>
+      <div className='flex gap-3'>
+        <button className='btn bg-[#4F959D] inline-block text-white font-semibold px-5 rounded-md'>Add Partner</button>
+        <button onClick={()=>navigate(-1)} className='btn bg-[#4F959D] inline-block text-white font-semibold px-5 rounded-md'>Go Back</button>
+
+      </div>
        </div>
     </div>
   )
