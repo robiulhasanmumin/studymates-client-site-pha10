@@ -54,7 +54,8 @@ const router = createBrowserRouter([
       },
       {
         path:"/myConnection",
-        Component: MyConnection
+        Component: MyConnection,
+        loader:()=>fetch("http://localhost:3000/connection")
       }
     ]
 

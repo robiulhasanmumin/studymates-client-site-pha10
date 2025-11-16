@@ -1,27 +1,77 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { FaStar, FaUsers } from 'react-icons/fa'
 import { useLoaderData, useNavigate, useParams } from 'react-router'
+import Swal from 'sweetalert2'
 
 const PartnerDetails = () => {
   const partnerData = useLoaderData()
   const {id} = useParams()
   const [data, setData] = useState({})
   const navigate  = useNavigate()
+  const [install, setInstall] = useState(false)
 
-  const {subject,name,profileimage,studyMode,rating, availabilityTime,location,description,experienceLevel,patnerCount,email} = data
+  const {_id,subject,name,profileimage,studyMode,rating, availabilityTime,location,description,experienceLevel,patnerCount,email} = data
 
   useEffect(()=>{
 
+    
     const findPartner = partnerData.find(partner=>partner._id == id)
     setData(findPartner)
+    if(findPartner){
+      axios.get(`http://localhost:3000/connection/${findPartner.email}/${findPartner._id}`)
+      .then(res=>setInstall(res.data.exist))
+      .catch(err=>alert(err))
 
-  },[partnerData, id])
+    }
+
+  },[partnerData, id ])
 
   if(!data || !data._id){
      return <p className='text-center text-4xl my-20 text-gray-500'>Loading...</p>
   }
 
     const mode = studyMode === "Online" ? "text-green-500 bg-green-100" : "text-red-500 bg-red-100";
+
+    const handleAddPartner=async()=>{
+        const newConnection = {
+partnerId:_id,          
+name : name,
+profileimage: profileimage,
+subject:subject,
+studyMode:studyMode,
+availabilityTime:availabilityTime,
+location: location,
+description:description,
+experienceLevel:experienceLevel,
+rating:rating,
+patnerCount:patnerCount,
+email:email
+        }
+
+    try{
+       const res = await axios.post("http://localhost:3000/connection",newConnection) 
+       if(res.data.insertedId){
+        Swal.fire({
+  title: "Good job!",
+  text: "Add Partner Successfully!",
+  icon: "success"
+});
+setInstall(true)
+
+       }
+    }
+    catch(error){
+       console.log(error)
+       Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Something went wrong!",
+});
+    }
+
+
+  }
 
   return (
     <div className='flex flex-col md:flex-row gap-8 px-10 py-20 items-center'>
@@ -54,7 +104,7 @@ const PartnerDetails = () => {
         <p className='text-xl text-gray-500 my-5'><span className='font-semibold'>Contact :</span> {location} - {email}</p>
 
       <div className='flex gap-3'>
-        <button className='btn bg-[#4F959D] inline-block text-white font-semibold px-5 rounded-md'>Add Partner</button>
+        <button onClick={handleAddPartner} disabled={install} className='btn bg-[#4F959D] disabled:bg-gray-500 disabled:cursor-not-allowed inline-block text-white font-semibold px-5 rounded-md'>{install ? "Already Added" : "Add Partner"}</button>
         <button onClick={()=>navigate(-1)} className='btn bg-[#4F959D] inline-block text-white font-semibold px-5 rounded-md'>Go Back</button>
 
       </div>
