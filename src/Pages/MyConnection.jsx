@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLoaderData } from 'react-router'
 import MyConnectionList from './MyConnectionList'
 
 const MyConnection = () => {
   const connectionData = useLoaderData()
       const [loading, setLoading] = useState(false)
+      const [connection, setConnection] = useState(connectionData)
+
+
+      const handleUIDelete=(id)=>{
+        const filterData = connection.filter(c=>c._id !== id)
+         setConnection(filterData)
+      }
 
   return (
       <div className="py-8 px-12">
@@ -12,7 +19,7 @@ const MyConnection = () => {
 
       <div className="flex md:flex-row flex-col justify-between items-center mt-8">
         <p className="text-[22px] font-bold mb-5 md:mb-0">
-          Partner Count - <span className='text-[#4F959D]'>{connectionData.length}</span>
+          Partner Count : <span className='text-[#4F959D]'>{connection.length}</span>
         </p>
 
       </div>
@@ -22,10 +29,10 @@ const MyConnection = () => {
   loading ? 
     <p className='text-4xl text-center my-24 text-gray-500 font-semibold '>Loading...</p>
 :
-  connectionData.length > 0 ?
+  connection.length > 0 ?
         <div className='mt-5'>
         {
-          connectionData.map(connection=><MyConnectionList key={connection._id} connection={connection}></MyConnectionList>)
+          connection.map(connection=><MyConnectionList handleUIDelete={handleUIDelete} key={connection._id} connection={connection}></MyConnectionList>)
         }
       </div>
   :

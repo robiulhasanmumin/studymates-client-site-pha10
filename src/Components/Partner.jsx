@@ -11,7 +11,9 @@ const Partner = ({partner}) => {
 <div className="border-2 border-gray-300 rounded-2xl p-5">
   {/* content */}
     <img src={profileimage} className='w-full h-[220px] rounded-2xl' alt="Tailwind CSS 3D card" />
+    <div>
     <p className='text-2xl font-bold mt-3'>{name}</p>
+    </div>
       <p className='text-[18px]'><span className='text-[#4F959D] font-bold'>{subject}</span></p>      
     <div className='flex justify-between mt-2'>
       <p className='flex gap-1 items-center text-gray-500 font-semibold'><FaStar className='text-amber-500' /> {rating}</p>
