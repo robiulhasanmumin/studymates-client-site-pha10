@@ -1,71 +1,77 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import Roots from './Roots/Roots';
-import Home from './Components/Home';
-import FindPartners from './Pages/FindPartners';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
-import AuthProvider from './provider/AuthProvider';
-import PartnerDetails from './Pages/PartnerDetails';
-import ErrorPage from './Pages/ErrorPage';
-import ProfilePage from './Pages/ProfilePage';
-import CreatePartnerProfile from './Pages/CreatePartnerProfile';
-import MyConnection from './Pages/MyConnection';
-import PrivateRoutes from './provider/PrivateRoutes';
+import Roots from "./Roots/Roots";
+import Home from "./Components/Home";
+import FindPartners from "./Pages/FindPartners";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import AuthProvider from "./provider/AuthProvider";
+import PartnerDetails from "./Pages/PartnerDetails";
+import ErrorPage from "./Pages/ErrorPage";
+import ProfilePage from "./Pages/ProfilePage";
+import CreatePartnerProfile from "./Pages/CreatePartnerProfile";
+import MyConnection from "./Pages/MyConnection";
+import PrivateRoutes from "./provider/PrivateRoutes";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component:Roots,
-    errorElement:<ErrorPage></ErrorPage>,
-    children:[
+    Component: Roots,
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
       {
-        index:true,
-        Component:Home
+        index: true,
+        Component: Home,
       },
       {
-        path:"findPartners",
-        Component:FindPartners,
-        loader:()=>fetch(`http://localhost:3000/partner`)
+        path: "findPartners",
+        Component: FindPartners,
+        loader: () =>
+          fetch(`https://study-mates-server-site.vercel.app/partner`),
       },
       {
-        path:"partnerDetails/:id",
-        element:<PrivateRoutes><PartnerDetails></PartnerDetails></PrivateRoutes>,
-        loader:()=>fetch(`http://localhost:3000/partner`)
+        path: "partnerDetails/:id",
+        element: (
+          <PrivateRoutes>
+            <PartnerDetails></PartnerDetails>
+          </PrivateRoutes>
+        ),
+        loader: () =>
+          fetch(`https://study-mates-server-site.vercel.app/partner`),
       },
       {
-        path:"/login",
-        Component:Login
+        path: "/login",
+        Component: Login,
       },
       {
-        path:"/register",
-        Component:Register
+        path: "/register",
+        Component: Register,
       },
       {
-        path:"/myProfile",
-        Component: ProfilePage
+        path: "/myProfile",
+        Component: ProfilePage,
       },
       {
-        path:"/createPartnerProfile",
-        Component: CreatePartnerProfile
+        path: "/createPartnerProfile",
+        Component: CreatePartnerProfile,
       },
       {
-        path:"/myConnection",
+        path: "/myConnection",
         Component: MyConnection,
-        loader:()=>fetch("http://localhost:3000/connection")
-      }
-    ]
-
+        loader: () =>
+          fetch("https://study-mates-server-site.vercel.app/connection"),
+      },
+    ],
   },
 ]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
- <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </AuthProvider>
-   </StrictMode>,
-)
+  </StrictMode>
+);

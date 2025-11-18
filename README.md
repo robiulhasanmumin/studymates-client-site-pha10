@@ -1,6 +1,7 @@
 # Study Mate
 
 ### live URL: 
+### Server URL: https://study-mates-server-site.vercel.app
 
 ## Description
 **Study Mate** is a simple React project created to practice component-based design,authentication, routing, and Tailwind styling. It includes pages like Home, Find partner, Create partner, Register and login.

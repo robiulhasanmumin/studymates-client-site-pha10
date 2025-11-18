@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 
 const Partner = ({partner}) => {
-  const {_id,name,profileimage,subject,rating,studyMode} = partner
+  const {_id,name,profileimage,subject,rating,studyMode,experienceLevel} = partner
   const mode = studyMode === "Online" ? "text-green-500 bg-green-100" : "text-red-500 bg-red-100";
   
   return (
@@ -14,7 +14,7 @@ const Partner = ({partner}) => {
     <div>
     <p className='text-2xl font-bold mt-3'>{name}</p>
     </div>
-      <p className='text-[18px]'><span className='text-[#4F959D] font-bold'>{subject}</span></p>      
+      <p className='text-[18px]'><span className='text-[#4F959D] font-bold text-[20px]'>{subject}</span> - <span className='font-semibold'>{experienceLevel}</span></p>      
     <div className='flex justify-between mt-2'>
       <p className='flex gap-1 items-center text-gray-500 font-semibold'><FaStar className='text-amber-500' /> {rating}</p>
       <p className={`rounded-2xl px-2 ${mode}`}>{studyMode}</p>

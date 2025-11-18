@@ -11,7 +11,7 @@ const FindPartner = ({partner}) => {
   {/* content */}
     <img src={profileimage} className='w-full h-[220px] rounded-2xl' alt="Tailwind CSS 3D card" />
     <p className='text-2xl font-bold mt-3'>{name}</p>
-      <p className='text-[18px]'><span className='text-[#4F959D] font-bold'>{subject}</span> - <span className='font-semibold'>{experienceLevel}</span></p> 
+      <p className='text-[18px]'><span className='text-[#4F959D] font-bold text-[20px]'>{subject}</span> - <span className='font-semibold'>{experienceLevel}</span></p> 
     <div className='flex justify-between mt-2'>
       <p className='flex gap-1 items-center text-gray-500 font-semibold'><FaStar className='text-amber-500' /> {rating}</p>
       <p className={`rounded-2xl px-2 ${mode}`}>{studyMode}</p>

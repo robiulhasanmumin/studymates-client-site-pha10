@@ -15,40 +15,35 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
       : "text-red-500 bg-red-100";
 
   const handleUpdate = async () => {
+    try {
+      const updateData = {
+        name: pName,
+        profileimage: photo,
+        subject: editSubject,
+        studyMode: editMode,
+      };
+      const res = await axios.put(
+        `https://study-mates-server-site.vercel.app/connection/${_id}`,
+        updateData
+      );
 
-   try{
-     const updateData = {
-      name: pName,
-      profileimage: photo,
-      subject: editSubject,
-      studyMode: editMode,
-    };
-    const res = await axios.put(
-      `http://localhost:3000/connection/${_id}`,
-      updateData
-    );
+      if (res.data.modifiedCount > 0) {
+        document.getElementById(`my_modal_${_id}`).close();
+        handleUIUpdate(_id, updateData);
 
-    if (res.data.modifiedCount > 0) {
-      document.getElementById(`my_modal_${_id}`).close();
-      handleUIUpdate(_id, updateData);
-
-      await Swal.fire({
-        title: "Updated Successfully!",
-        icon: "success",
+        await Swal.fire({
+          title: "Updated Successfully!",
+          icon: "success",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Update Failed!",
+        icon: "error",
+        text: `${err.message}`,
       });
-    
     }
-
-   }
-   catch(err){
-    Swal.fire({
-      title: "Update Failed!",
-      icon: "error",
-      text:`${err.message}`
-    });
-   }
-  }
-
+  };
 
   const handleDelete = () => {
     Swal.fire({
@@ -63,7 +58,7 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
       .then(async (result) => {
         if (result.isConfirmed) {
           const res = await axios.delete(
-            `http://localhost:3000/connection/${_id}`
+            `https://study-mates-server-site.vercel.app/connection/${_id}`
           );
           if (res.data.deletedCount) {
             Swal.fire({
@@ -112,10 +107,12 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
           <div className="modal-box">
             <h3 className="font-bold text-2xl">Update Partner Information!</h3>
             <div className="modal-action flex flex-col">
-              <form onSubmit={(e)=>{
-                e.preventDefault()
-                handleUpdate()
-                }} >
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleUpdate();
+                }}
+              >
                 <label className="label">Name</label>
                 <input
                   type="text"
@@ -161,24 +158,27 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
                   <option>Online</option>
                   <option>Offline</option>
                 </select>
-              <div className="flex justify-end items-center mt-4 gap-3">
-                <button
-                  type="submit"
-                  // onClick={handleUpdate}
-                  className="bg-[#4F959D] btn text-white"
-                >
-                  Update
-                </button>
-                  <button 
-                  type="button"
-                  onClick={()=>{
-                    document.getElementById(`my_modal_${_id}`).close()}} 
-                  className="btn bg-red-500 text-white">Close</button>
-                {/* <form method="dialog">
+                <div className="flex justify-end items-center mt-4 gap-3">
+                  <button
+                    type="submit"
+                    // onClick={handleUpdate}
+                    className="bg-[#4F959D] btn text-white"
+                  >
+                    Update
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      document.getElementById(`my_modal_${_id}`).close();
+                    }}
+                    className="btn bg-red-500 text-white"
+                  >
+                    Close
+                  </button>
+                  {/* <form method="dialog">
                 </form> */}
-              </div>
+                </div>
               </form>
-
             </div>
           </div>
         </dialog>
