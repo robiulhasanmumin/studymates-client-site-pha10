@@ -1,6 +1,6 @@
 # Study Mate
 
-### live URL: 
+### live URL: https://study-mate-22c7d.web.app/
 ### Server URL: https://study-mates-server-site.vercel.app
 
 ## Description
