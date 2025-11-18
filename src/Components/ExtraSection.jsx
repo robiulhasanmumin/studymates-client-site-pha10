@@ -44,7 +44,7 @@ const ExtraSection = () => {
          {
           reviews.map((review,index)=>(
             <div key={index} className='flex-1 p-5 shadow rounded-xl border-2 border-gray-200'>
-              <p className='text-gray-500'>{review.text}</p>
+              <p>{review.text}</p>
               <p className='text-gray-500 font-bold mt-2'>- {review.name}</p>
             </div>
           ))

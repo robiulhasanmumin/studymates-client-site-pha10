@@ -44,6 +44,7 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
     Swal.fire({
       title: "Update Failed!",
       icon: "error",
+      text:`${err.message}`
     });
    }
   }
@@ -77,7 +78,7 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center mt-3 bg-white p-3 rounded-md border-2 border-gray-300 shadow">
+    <div className="flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center mt-3 p-3 rounded-md border-2 border-gray-300 shadow">
       <div className="flex gap-5 items-center">
         <img
           src={profileimage}

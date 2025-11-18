@@ -1,14 +1,29 @@
-import React, { use } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router'
 import "../../src/index.css"
 import { AuthContext } from '../provider/AuthContext'
 import Swal from 'sweetalert2'
 import { MdLogout } from "react-icons/md";
 import { FaMoon, FaRegUserCircle } from 'react-icons/fa'
+import { FiSun } from "react-icons/fi";
+
 
 
 const Navbar = () => {
   const {user,logOut} = use(AuthContext)
+  const [theme,setTheme] = useState(()=>localStorage.getItem("theme") || "light"
+  )
+  
+  useEffect(()=>{
+    document.querySelector("html").setAttribute("data-theme", theme)
+    localStorage.setItem("theme",theme)
+  },[theme])
+
+
+  const handleTheme =()=>{
+    setTheme(theme === "light" ? "dark" : "light")
+  }
+
   const links = <>
       <li><NavLink to="/">Home</NavLink></li>
       <li><NavLink to="/findPartners">Find Partners</NavLink></li>
@@ -46,6 +61,8 @@ const Navbar = () => {
       }
     });
   }
+
+
   return (
 <div className="navbar bg-base-100 shadow-sm">
   <div className="navbar-start">
@@ -85,11 +102,18 @@ const Navbar = () => {
 
           <>
     <Link to="/login" className="btn bg-[#4F959D] hover:bg-[#397177] text-white">Login</Link>
-    <Link to="/register" className="btn bg-[#4F959D] hover:bg-[#397177] text-white ml-2">Register</Link>
+    <Link to="/register" className="btn bg-[#4F959D] hover:bg-[#397177] text-white ml-2 mr-2">Register</Link>
 
           </>
     }
-    <FaMoon className='text-2xl mr-3 cursor-pointer' />
+
+    {
+      theme === "light" ? 
+      <button onClick={handleTheme}><FiSun className='text-2xl mr-3 cursor-pointer' /></button>
+      :
+      <button onClick={handleTheme}><FaMoon className='text-2xl mr-3 cursor-pointer' /></button>
+
+    }
 
   </div>
 </div>
