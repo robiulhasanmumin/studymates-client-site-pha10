@@ -4,7 +4,7 @@ import "../../src/index.css"
 import { AuthContext } from '../provider/AuthContext'
 import Swal from 'sweetalert2'
 import { MdLogout } from "react-icons/md";
-import { FaRegUserCircle } from 'react-icons/fa'
+import { FaMoon, FaRegUserCircle } from 'react-icons/fa'
 
 
 const Navbar = () => {
@@ -89,6 +89,8 @@ const Navbar = () => {
 
           </>
     }
+    <FaMoon className='text-2xl mr-3 cursor-pointer' />
+
   </div>
 </div>
 

@@ -8,7 +8,7 @@ const FindPartners = () => {
     const allPartners = useLoaderData()
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false)
-    const [sort,setSort] = useState('low')
+    const [sort,setSort] = useState('ad')
 
     
     const handleSearch = (e)=>{
@@ -26,11 +26,20 @@ const FindPartners = () => {
     const handleSort=(type)=>{
       setSort(type)
     }
+    const exSort = {
+      "Beginner": 1,
+      "Intermediate" : 2,
+      "Advanced" : 3
+    }
           
-    if(sort==="low"){
-        filterData = [...filterData].sort((a,b)=>a.rating - b.rating)
-      } else if(sort ==="high"){
-        filterData = [...filterData].sort((a,b)=>b.rating - a.rating)
+    if(sort==="ad"){
+        filterData = [...filterData].sort((a,b)=>exSort[b.experienceLevel] - exSort[a.experienceLevel] )
+      } else if(sort ==="in"){
+        filterData = [...filterData].sort((a,b)=>{
+          return Math.abs(exSort[a.experienceLevel] - 2) - Math.abs(exSort[b.experienceLevel] - 2)
+        })
+      } else if(sort ==="be"){
+        filterData = [...filterData].sort((a,b)=>exSort[a.experienceLevel] - exSort[b.experienceLevel])
       }
 
 
@@ -43,11 +52,13 @@ const FindPartners = () => {
         <div>
          <h2 className='text-xl font-bold'>Total Partners : <span className='text-[#4F959D]'>{filterData.length}</span></h2>
 
-        <label className='text-[#4F959D] font-bold mt-2'>Sort By Rating : </label>
-        <label className='font-bold'>Low</label>
-        <input type="radio" onClick={()=>handleSort("low")} name="radio-4" className="radio w-5 h-5 ml-1 mr-2 radio-primary" defaultChecked />
-        <label className='font-bold'>High</label>
-        <input type="radio" onClick={()=>handleSort("high")} name="radio-4" className="radio ml-1 w-5 h-5 radio-primary" />
+        <label className='text-[#4F959D] font-bold mt-2'>Sort By Experience : </label>
+        <input type="radio" onClick={()=>handleSort("ad")} name="radio-4" className="radio w-5 h-5 ml-2 mr-1 radio-primary" defaultChecked />
+        <label className='font-bold'>Advanced</label>
+        <input type="radio" onClick={()=>handleSort("in")} name="radio-4" className="radio w-5 h-5 ml-2 mr-1 radio-primary" />
+        <label className='font-bold'>Intermediate</label>
+        <input type="radio" onClick={()=>handleSort("be")} name="radio-4" className="radio w-5 h-5 ml-2 mr-1 radio-primary" />
+        <label className='font-bold'>Beginner</label>
         </div>
 
         <label className='border-2 flex items-center gap-2 border-gray-500 px-3 py-2 rounded-md'>
@@ -63,7 +74,7 @@ const FindPartners = () => {
   :
           filterData.length > 0 ?
       <div className='grid lg:grid-cols-3 grid-cols-1 gap-4'>
-          {filterData.map(partner=><FindPartner key={partner.id} partner={partner}></FindPartner>) }
+          {filterData.map(partner=><FindPartner key={partner._id} partner={partner}></FindPartner>) }
       </div>
       :
         <p className="text-4xl text-center my-24 text-gray-500 font-semibold " >

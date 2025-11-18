@@ -28,10 +28,15 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
       updateData
     );
 
-    if (res.data.modified > 0) {
+    if (res.data.modifiedCount > 0) {
       document.getElementById(`my_modal_${_id}`).close();
       handleUIUpdate(_id, updateData);
 
+      await Swal.fire({
+        title: "Updated Successfully!",
+        icon: "success",
+      });
+    
     }
 
    }
@@ -107,7 +112,7 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
             <h3 className="font-bold text-2xl">Update Partner Information!</h3>
             <div className="modal-action flex flex-col">
               <form onSubmit={(e)=>{
-                e.preventDefault
+                e.preventDefault()
                 handleUpdate()
                 }} >
                 <label className="label">Name</label>
@@ -163,7 +168,11 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
                 >
                   Update
                 </button>
-                  <button onClick={() => document.getElementById(`my_modal_${_id}`).close()} className="btn bg-red-500 text-white">Close</button>
+                  <button 
+                  type="button"
+                  onClick={()=>{
+                    document.getElementById(`my_modal_${_id}`).close()}} 
+                  className="btn bg-red-500 text-white">Close</button>
                 {/* <form method="dialog">
                 </form> */}
               </div>
