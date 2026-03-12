@@ -1,17 +1,21 @@
 import React from 'react'
-import Navbar from './Navbar'
-import Banner from './Banner'
+ import Banner from './Banner'
 import TopStudyPartners from './TopStudyPartners'
-import ExtraSection from './ExtraSection'
-import ScrollTop from './ScrollTop'
+ import HowItWorks from './HowItWorks'
+import Statistics from './Stat'
+import Testimonials from './TestMonials'
+import ContactUs from './Contact'
 
 const Home = () => {
   return (
     <div>
       <Banner></Banner>
+      <HowItWorks></HowItWorks>
       <TopStudyPartners></TopStudyPartners>
-      <ExtraSection></ExtraSection>
-    </div>
+      <Statistics></Statistics>
+      <Testimonials></Testimonials>
+      <ContactUs></ContactUs>
+     </div>
   )
 }
 

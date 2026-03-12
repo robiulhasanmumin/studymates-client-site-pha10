@@ -6,13 +6,16 @@ import ScrollTop from '../Components/ScrollTop'
 
 const Roots = () => {
   return (
-    <div className='max-w-7xl mx-auto'>
-      <div className=' sticky top-0 z-10'>
+    <div>
+      <div className='sticky top-0 z-10'>
 
       <Navbar></Navbar>
       </div>
       <ScrollTop></ScrollTop>
+      <div className='max-w-7xl mx-auto'>
+
       <Outlet></Outlet>
+      </div>
       <Footer></Footer>
     </div>
   )
