@@ -15,6 +15,7 @@ import ProfilePage from "./Pages/ProfilePage";
 import CreatePartnerProfile from "./Pages/CreatePartnerProfile";
 import MyConnection from "./Pages/MyConnection";
 import PrivateRoutes from "./provider/PrivateRoutes";
+import About from "./Pages/About";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
         Component: FindPartners,
         loader: () =>
           fetch(`https://study-mates-server-site.vercel.app/partner`),
+      },
+      {
+        path: "about",
+        Component: About
       },
       {
         path: "partnerDetails/:id",
