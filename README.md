@@ -49,7 +49,7 @@ To get a local copy up and running, follow these simple steps:
 
 ### Installation
 
-1. **Clone the repository:**
+1. **Follow This Instruction**
    ```bash
    git clone https://github.com/robiulhasanmumin/studymates-client-site-pha10.git
    cd studymates-client-site-pha10
