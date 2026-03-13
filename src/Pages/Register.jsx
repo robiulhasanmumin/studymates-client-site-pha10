@@ -1,119 +1,172 @@
-import React, { use, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
-import { AuthContext } from '../provider/AuthContext'
-import Swal from 'sweetalert2'
+import React, { use, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { AuthContext } from '../provider/AuthContext';
+import Swal from 'sweetalert2';
+import { FaUser, FaLink, FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
 
 const Register = () => {
-  const [err,setErr] = useState("")
-    const {googleSignIn,createUser,setUser,updateUser} = use(AuthContext)
-  const navigate = useNavigate()
+  const [err, setErr] = useState("");
+  const { googleSignIn, createUser, setUser, updateUser } = use(AuthContext);
+  const navigate = useNavigate();
 
-
-  const handleRegister=(e)=>{
-     e.preventDefault()
+  const handleRegister = (e) => {
+    e.preventDefault();
+    setErr("");
     const name = e.target.name.value;
     const photo = e.target.photo.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    const passwordValidation =  /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
-    if(!passwordValidation.test(password)){
-      setErr("Must be 1 Upparcase, 1 Lowercase and 6 Carecters")
-      return
+    if (!passwordValidation.test(password)) {
+      setErr("Password must contain at least 1 Uppercase, 1 Lowercase and 6 characters.");
+      return;
     }
-    createUser(email,password)
-    .then((result)=>{
-      const user = result.user
-      updateUser({displayName: name, photoURL: photo})
-      .then(()=>{
-         setUser({...user,displayName: name, photoURL: photo})
-           Swal.fire({
-           title: "Register Completed!",
-           icon: "success"
-           });
-           navigate("/")
-      })
-      .catch((error)=>{
-         Swal.fire({
-  icon: "error",
-  title: "Oops...",
-  text: `${error.message}`,
-});
-      })
-    })
-    .catch((error)=>{
-         Swal.fire({
-  icon: "error",
-  title: "Oops...",
-  text: `${error.message}`,
-});
 
-    })
-
-  }
-
-  
-  const handleGoogleLogin=()=>{
-     googleSignIn()
-     .then((result)=>{
-      const user = result.user;
-      setUser(user)
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photo });
             Swal.fire({
-        title: `Welcome ${user.displayName}!`,
-        text: "Logged In Successfully With Google",
-        icon: "success",
+              title: "Registration Successful!",
+              text: `Welcome to Study Mate, ${name}!`,
+              icon: "success",
+              confirmButtonColor: "#4F959D",
+            });
+            navigate("/");
+          })
+          .catch((error) => {
+            setErr(error.message);
+          });
+      })
+      .catch((error) => {
+        setErr(error.message);
+        Swal.fire({
+          icon: "error",
+          title: "Registration Failed",
+          text: error.message,
+        });
       });
-      navigate("/");
-     })
-     .catch((error)=>{
-         Swal.fire({
-  icon: "error",
-  title: "Oops...",
-  text: `${error.message}`,
-});
-     })
-  }
+  };
+
+  const handleGoogleLogin = () => {
+    googleSignIn()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        Swal.fire({
+          title: `Welcome ${user.displayName}!`,
+          text: "Logged In Successfully With Google",
+          icon: "success",
+          confirmButtonColor: "#4F959D",
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
+      });
+  };
+
   return (
-    <div  className=''>
-    <div className="py-16 bg-base-200">
-  <div className="hero-content flex-col lg:flex-row-reverse">
-    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <h1 className='text-2xl font-bold text-center mt-5'>Register</h1>
-      <div className="card-body">
-        <form onSubmit={handleRegister} className="fieldset">
-          {/* name */}
-          <label className="label">Name</label>
-          <input type="text" className="input" name='name' placeholder="Your Name" required />
-          {/* photoURL  */}
-          <label className="label">photoURL </label>
-          <input type="text" className="input" name='photo' placeholder="photoURL" required />
+    <div className="min-h-screen bg-base-200 flex items-center justify-center py-12 px-4">
+      <div className="card bg-base-100 w-full max-w-md shadow-2xl rounded-[2.5rem] overflow-hidden border border-base-300">
+        
+        {/* Top Header */}
+        <div className="bg-[#4F959D] py-8 text-white text-center">
+          <h1 className="text-3xl font-black">Join Community</h1>
+          <p className="opacity-80 mt-1 font-medium">Create your account to find study partners</p>
+        </div>
 
-          {/* email */}
-          <label className="label">Email</label>
-          <input type="email" className="input" name='email' placeholder="Email" required />
-          {/* password */}
-          <label className="label">Password</label>
-          <input type="password" className="input" name='password' placeholder="Password" required/>
-          <p className='text-red-500'>{err && err}</p>
+        <div className="card-body p-8 md:p-10">
+          <form onSubmit={handleRegister} className="space-y-4">
+            
+            {/* Name Input */}
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2">
+                <FaUser className="text-[#4F959D]" /> Full Name
+              </label>
+              <input 
+                type="text" 
+                name="name" 
+                placeholder="Enter your name" 
+                className="input input-bordered rounded-xl bg-base-200 border-none focus:ring-2 focus:ring-[#4F959D]" 
+                required 
+              />
+            </div>
 
-          <button type='submit' className="btn btn-neutral mt-4 mb-2">Register</button>
+            {/* Photo URL Input */}
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2">
+                <FaLink className="text-[#4F959D]" /> Photo URL
+              </label>
+              <input 
+                type="text" 
+                name="photo" 
+                placeholder="https://example.com/photo.jpg" 
+                className="input input-bordered rounded-xl bg-base-200 border-none focus:ring-2 focus:ring-[#4F959D]" 
+                required 
+              />
+            </div>
 
-          <button onClick={handleGoogleLogin} className="btn bg-white text-black border-[#e5e5e5]">
-  <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
-  Login with Google
-</button>
+            {/* Email Input */}
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2">
+                <FaEnvelope className="text-[#4F959D]" /> Email Address
+              </label>
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="example@mail.com" 
+                className="input input-bordered rounded-xl bg-base-200 border-none focus:ring-2 focus:ring-[#4F959D]" 
+                required 
+              />
+            </div>
 
-  <p className='text-center mt-2'>Do You Have Account? Pls <Link to="/login" className='text-blue-500'>Login</Link></p>
+            {/* Password Input */}
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2">
+                <FaLock className="text-[#4F959D]" /> Password
+              </label>
+              <input 
+                type="password" 
+                name="password" 
+                placeholder="••••••••" 
+                className="input input-bordered rounded-xl bg-base-200 border-none focus:ring-2 focus:ring-[#4F959D]" 
+                required 
+              />
+              {err && <p className="text-red-500 text-xs mt-2 font-medium">{err}</p>}
+            </div>
 
-        </form>
+            <button type="submit" className="btn bg-[#4F959D] hover:bg-[#397177] text-white w-full border-none rounded-xl mt-4 shadow-lg shadow-[#4f959d]/20 font-bold">
+              Create Account
+            </button>
+          </form>
+
+          <div className="divider opacity-50">OR</div>
+
+          <button 
+            onClick={handleGoogleLogin} 
+            type="button"
+            className="btn btn-outline border-base-300 hover:bg-base-200 hover:text-base-content w-full rounded-xl flex items-center gap-2 font-bold"
+          >
+            <FaGoogle className="text-red-500" /> Register with Google
+          </button>
+
+          <p className="text-center mt-6 font-medium">
+            Already have an account? 
+            <Link to="/login" className="text-[#4F959D] ml-2 hover:underline">Login</Link>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</div> 
-
-    </div>
-  )
+  );
 }
 
-export default Register
+export default Register;

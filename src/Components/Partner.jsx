@@ -7,7 +7,7 @@ const Partner = ({ partner }) => {
   
    const modeStyles = studyMode === "Online" 
     ? "bg-green-100 text-green-700 border-green-200" 
-    : "bg-blue-100 text-blue-700 border-blue-200";
+    : "bg-red-100 text-red-700 border-red-200";
 
   return (
     <div className="group relative bg-base-100 rounded-3xl p-4 shadow-sm hover:shadow-2xl transition-all duration-500 border border-base-200 overflow-hidden">

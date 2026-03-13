@@ -21,7 +21,7 @@ const TopStudyPartners = () => {
   }, []);
 
   return (
-    <section className="py-12 bg-base-100">
+    <section className="py-20 mt-10 bg-base-100">
       <div className="container mx-auto lg:px-10 px-5">
         
         {/* Section Header */}

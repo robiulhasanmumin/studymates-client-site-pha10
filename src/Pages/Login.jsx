@@ -1,133 +1,133 @@
-import React, { use, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router'
-import { AuthContext } from '../provider/AuthContext'
-import Swal from 'sweetalert2'
+import React, { use, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
+import { AuthContext } from '../provider/AuthContext';
+import Swal from 'sweetalert2';
+import { FaEnvelope, FaLock, FaGoogle, FaSignInAlt } from 'react-icons/fa';
 
 const Login = () => {
-  const {googleSignIn,logIn,setUser} = use(AuthContext)
-  const location = useLocation()
-  const navigate = useNavigate()
+  const { googleSignIn, logIn, setUser } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [err, setErr] = useState("");
 
-  const [err,setErr] = useState("")
-
-  const handleLogin =(e)=>{
-    e.preventDefault()
-        const email = e.target.email.value;
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setErr("");
+    const email = e.target.email.value;
     const password = e.target.password.value;
-    logIn(email,password)
-    .then(()=>{
-       Swal.fire({
-          title: "Logged In Successfully!",
+
+    logIn(email, password)
+      .then(() => {
+        Swal.fire({
+          title: "Welcome Back!",
+          text: "Logged In Successfully!",
           icon: "success",
+          confirmButtonColor: "#4F959D",
         });
-        navigate(`${location.state ? location.state : "/"}`)
-    })
-    .catch(()=>{
-      setErr("Incorrect Password.")
-    })
-
-  }
-
-  const handleGoogleLogin=()=>{
-     googleSignIn()
-     .then((result)=>{
-      const user = result.user;
-      setUser(user)
-            Swal.fire({
-        title: `Welcome ${user.displayName}!`,
-        text: "Logged In Successfully With Google",
-        icon: "success",
+        navigate(location.state ? location.state : "/");
+      })
+      .catch(() => {
+        setErr("Invalid email or password. Please try again.");
       });
-      navigate(`${location.state ? location.state : "/"}`);
-     })
-     .catch((err)=>{
-       alert(err)
-     })
-  }
+  };
+
+  const handleGoogleLogin = () => {
+    googleSignIn()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        Swal.fire({
+          title: `Hi, ${user.displayName}!`,
+          text: "Logged In Successfully With Google",
+          icon: "success",
+          confirmButtonColor: "#4F959D",
+        });
+        navigate(location.state ? location.state : "/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: error.message,
+        });
+      });
+  };
+
   return (
-    <div className=" bg-base-200 py-20">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <h1 className="text-2xl font-bold text-center mt-5">Login</h1>
-          <div className="card-body">
-            <form onSubmit={handleLogin} className="fieldset">
-              {/* email */}
-              <label className="label">Email</label>
-              <input
-                type="email"
-                className="input"
-                name="email"
-                // value={email}
-                // onChange={(e)=>setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-              {/* password */}
-              <label className="label">Password</label>
-              <input
-                type="password"
-                className="input"
-                name="password"
-                placeholder="Password"
-                required
-              />
-              <p className="text-red-500">{err && err}</p>
-              <div>
-                <a className="link link-hover ">
-                  Forgot password?
-                </a>
-              </div>
-              
-              <button type="submit" className="btn btn-neutral mt-4 mb-2">
-                Login
-              </button>
-
-              <button
-                onClick={handleGoogleLogin}
-                className="btn bg-white text-black border-[#e5e5e5]"
-              >
-                <svg
-                  aria-label="Google logo"
-                  width="16"
-                  height="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                >
-                  <g>
-                    <path d="m0 0H512V512H0" fill="#fff"></path>
-                    <path
-                      fill="#34a853"
-                      d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                    ></path>
-                    <path
-                      fill="#4285f4"
-                      d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                    ></path>
-                    <path
-                      fill="#fbbc02"
-                      d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                    ></path>
-                    <path
-                      fill="#ea4335"
-                      d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                    ></path>
-                  </g>
-                </svg>
-                Login with Google
-              </button>
-
-              <p className="text-center mt-2">
-                Do You Haven't Any Account? Pls{" "}
-                <Link to="/register" className="text-blue-500">
-                  Register
-                </Link>
-              </p>
-            </form>
+    <div className="min-h-screen bg-base-200 flex items-center justify-center py-12 px-4">
+      <div className="card bg-base-100 w-full max-w-md shadow-2xl rounded-[2.5rem] overflow-hidden border border-base-300">
+        
+        {/* Header Section */}
+        <div className="bg-[#4F959D] py-8 text-white text-center">
+          <div className="flex justify-center mb-2">
+             <FaSignInAlt size={40} />
           </div>
+          <h1 className="text-3xl font-black">Welcome Back</h1>
+          <p className="opacity-80 mt-1 font-medium">Log in to continue your journey</p>
+        </div>
+
+        <div className="card-body p-8 md:p-10">
+          <form onSubmit={handleLogin} className="space-y-4">
+            
+            {/* Email Field */}
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2">
+                <FaEnvelope className="text-[#4F959D]" /> Email Address
+              </label>
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Enter your email" 
+                className="input input-bordered rounded-xl bg-base-200 border-none focus:ring-2 focus:ring-[#4F959D]" 
+                required 
+              />
+            </div>
+
+            {/* Password Field */}
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2">
+                <FaLock className="text-[#4F959D]" /> Password
+              </label>
+              <input 
+                type="password" 
+                name="password" 
+                placeholder="••••••••" 
+                className="input input-bordered rounded-xl bg-base-200 border-none focus:ring-2 focus:ring-[#4F959D]" 
+                required 
+              />
+              {err && <p className="text-red-500 text-xs mt-2 font-medium">{err}</p>}
+              
+              <div className="flex justify-end mt-2">
+                <button type="button" className="text-xs font-bold text-[#4F959D] hover:underline">
+                  Forgot password?
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" className="btn bg-[#4F959D] hover:bg-[#397177] text-white w-full border-none rounded-xl mt-4 shadow-lg shadow-[#4f959d]/20 font-bold">
+              Sign In
+            </button>
+          </form>
+
+          <div className="divider opacity-50 font-bold text-xs uppercase tracking-widest my-6">OR</div>
+
+          {/* Google Login */}
+          <button 
+            onClick={handleGoogleLogin} 
+            type="button"
+            className="btn btn-outline border-base-300 hover:bg-base-200 hover:text-base-content w-full rounded-xl flex items-center gap-2 font-bold"
+          >
+            <FaGoogle className="text-red-500" /> Sign In with Google
+          </button>
+
+          <p className="text-center mt-8 font-medium">
+            New to Study Mate? 
+            <Link to="/register" className="text-[#4F959D] ml-2 hover:underline font-bold">Create Account</Link>
+          </p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

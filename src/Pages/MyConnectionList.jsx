@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { FaEdit, FaTrashAlt, FaUser, FaLink, FaBook, FaGlobe } from "react-icons/fa";
 
 const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
   const { _id, name, profileimage, subject, studyMode } = connection;
@@ -9,10 +10,10 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
   const [editSubject, setEditSubject] = useState(subject);
   const [editMode, SetEditMode] = useState(studyMode);
 
-  const mode =
+  const modeBadge =
     studyMode === "Online"
-      ? "text-green-500 bg-green-100"
-      : "text-red-500 bg-red-100";
+      ? "bg-green-100 text-green-700 border-green-200"
+      : "bg-red-100 text-red-700 border-red-200";
 
   const handleUpdate = async () => {
     try {
@@ -32,8 +33,10 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
         handleUIUpdate(_id, updateData);
 
         await Swal.fire({
-          title: "Updated Successfully!",
+          title: "Success!",
+          text: "Partner information updated.",
           icon: "success",
+          confirmButtonColor: "#4F959D",
         });
       }
     } catch (err) {
@@ -48,150 +51,146 @@ const MyConnectionList = ({ connection, handleUIDelete, handleUIUpdate }) => {
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to Delete your partner?",
+      text: "This partner will be removed from your list.",
       icon: "warning",
       showCancelButton: true,
-      cancelButtonColor: "green",
-      confirmButtonColor: "red",
-      confirmButtonText: "Delete",
-    })
-      .then(async (result) => {
-        if (result.isConfirmed) {
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#4F959D",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
           const res = await axios.delete(
             `https://study-mates-server-site.vercel.app/connection/${_id}`
           );
           if (res.data.deletedCount) {
             Swal.fire({
-              title: "Removed Successfully!",
+              title: "Deleted!",
+              text: "Partner has been removed.",
               icon: "success",
             });
             handleUIDelete(_id);
           }
+        } catch (err) {
+          console.error(err);
         }
-      })
-      .catch((err) => alert(err));
+      }
+    });
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center mt-3 p-3 rounded-md border-2 border-gray-300 shadow">
-      <div className="flex gap-5 items-center">
-        <img
-          src={profileimage}
-          className="w-[60px] h-[50px] rounded-lg"
-          alt=""
-        />
+    <div className="flex flex-col md:flex-row gap-4 justify-between items-center mt-4 p-4 rounded-2xl bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition-shadow">
+      {/* Partner Info Section */}
+      <div className="flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto text-center sm:text-left">
+        <div className="relative">
+          <img
+            src={profileimage}
+            className="w-16 h-16 rounded-xl object-cover ring-2 ring-[#4F959D]/20"
+            alt={name}
+          />
+        </div>
         <div>
-          <p className="text-xl font-bold">
-            {name}{" "}
-            <span
-              className={`text-[12px] font-medium ${mode} rounded-2xl px-2 ml-2`}
-            >
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+            <h3 className="text-lg font-bold text-base-content">{name}</h3>
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${modeBadge}`}>
               {studyMode}
             </span>
-          </p>
-          <p className="text-[#4F959D] text-[17px] font-bold">{subject}</p>
-          <div className="flex gap-5 items-center"></div>
+          </div>
+          <p className="text-[#4F959D] font-semibold text-sm">{subject}</p>
         </div>
       </div>
-      <div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-2 w-full md:w-auto">
         <button
-          className="bg-[#4F959D] btn text-white px-5 py-2 rounded-md font-semibold mr-4"
+          className="flex-1 md:flex-none btn btn-sm bg-[#4F959D] hover:bg-[#3d757b] text-white border-none rounded-lg"
           onClick={() => document.getElementById(`my_modal_${_id}`).showModal()}
         >
-          Update
+          <FaEdit /> Update
         </button>
-        <dialog
-          id={`my_modal_${_id}`}
-          className="modal modal-bottom sm:modal-middle"
-        >
-          <div className="modal-box">
-            <h3 className="font-bold text-2xl">Update Partner Information!</h3>
-            <div className="modal-action flex flex-col">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleUpdate();
-                }}
-              >
-                <label className="label">Name</label>
-                <input
-                  type="text"
-                  value={pName}
-                  onChange={(e) => setPName(e.target.value)}
-                  className="input w-full"
-                  name="name"
-                  placeholder="Your Name"
-                  required
-                />
-                {/* photoURL  */}
-                <label className="label">photoURL </label>
-                <input
-                  type="text"
-                  className="input w-full"
-                  name="photo"
-                  value={photo}
-                  onChange={(e) => setPhoto(e.target.value)}
-                  placeholder="photoURL"
-                  required
-                />
-                {/* subject */}
-                <label className="label">Subject </label>
-                <input
-                  type="text"
-                  className="input w-full"
-                  name="subject"
-                  value={editSubject}
-                  onChange={(e) => setEditSubject(e.target.value)}
-                  placeholder="Subject"
-                  required
-                />
-                {/* studyMood */}
-                <label className="label">StudyMode </label>
-                <select
-                  defaultValue=""
-                  value={editMode}
-                  onChange={(e) => SetEditMode(e.target.value)}
-                  name="studymode"
-                  className="select w-full"
-                >
-                  <option disabled={true}>Select StudyMode</option>
-                  <option>Online</option>
-                  <option>Offline</option>
-                </select>
-                <div className="flex justify-end items-center mt-4 gap-3">
-                  <button
-                    type="submit"
-                    // onClick={handleUpdate}
-                    className="bg-[#4F959D] btn text-white"
-                  >
-                    Update
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      document.getElementById(`my_modal_${_id}`).close();
-                    }}
-                    className="btn bg-red-500 text-white"
-                  >
-                    Close
-                  </button>
-                  {/* <form method="dialog">
-                </form> */}
-                </div>
-              </form>
-            </div>
-          </div>
-        </dialog>
-
-        {/* <button onClick={handleUpdate} className='bg-[#4F959D] btn text-white px-5 py-2 rounded-md font-semibold mr-4'>Update</button> */}
-
         <button
-          className="bg-red-500 btn text-white px-5 py-2 rounded-md font-semibold"
+          className="flex-1 md:flex-none btn btn-sm bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-lg"
           onClick={handleDelete}
         >
-          Delete
+          <FaTrashAlt /> Delete
         </button>
       </div>
+
+      {/* Update Modal */}
+      <dialog id={`my_modal_${_id}`} className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box rounded-3xl p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="font-black text-2xl">Edit Information</h3>
+            <button 
+              onClick={() => document.getElementById(`my_modal_${_id}`).close()}
+              className="btn btn-sm btn-circle btn-ghost"
+            >✕</button>
+          </div>
+
+          <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="space-y-4">
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2"><FaUser className="text-[#4F959D]" /> Name</label>
+              <input
+                type="text"
+                value={pName}
+                onChange={(e) => setPName(e.target.value)}
+                className="input input-bordered bg-base-200 border-none rounded-xl"
+                placeholder="Partner Name"
+                required
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2"><FaLink className="text-[#4F959D]" /> Photo URL</label>
+              <input
+                type="text"
+                value={photo}
+                onChange={(e) => setPhoto(e.target.value)}
+                className="input input-bordered bg-base-200 border-none rounded-xl"
+                placeholder="Image URL"
+                required
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2"><FaBook className="text-[#4F959D]" /> Subject</label>
+              <input
+                type="text"
+                value={editSubject}
+                onChange={(e) => setEditSubject(e.target.value)}
+                className="input input-bordered bg-base-200 border-none rounded-xl"
+                placeholder="Topic"
+                required
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label font-bold text-sm flex gap-2"><FaGlobe className="text-[#4F959D]" /> Study Mode</label>
+              <select
+                value={editMode}
+                onChange={(e) => SetEditMode(e.target.value)}
+                className="select select-bordered bg-base-200 border-none rounded-xl"
+              >
+                <option>Online</option>
+                <option>Offline</option>
+              </select>
+            </div>
+
+            <div className="modal-action gap-3 pt-4">
+              <button type="submit" className="btn flex-1 bg-[#4F959D] hover:bg-[#3d757b] text-white border-none rounded-xl">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                onClick={() => document.getElementById(`my_modal_${_id}`).close()}
+                className="btn flex-1 btn-ghost bg-base-200 rounded-xl"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </dialog>
     </div>
   );
 };
